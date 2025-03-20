@@ -1,6 +1,6 @@
 # Interview Agent
 
-An AI-powered interview agent that helps with interview preparation and practice.
+An AI-powered interview agent that assists with shortlisting and interviewing process.
 
 ## Prerequisites
 
