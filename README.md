@@ -11,16 +11,19 @@ An AI-powered interview agent that assists with shortlisting and interviewing pr
 ## Setup
 
 1. Clone the repository
-2. Create and activate a virtual environment:
+   ```bash
+   git clone https://github.com/Kaztic/interview_agent.git
+   ```
+3. Create and activate a virtual environment:
    ```bash
    python -m venv myenv
    source myenv/bin/activate  # On Windows: myenv\Scripts\activate
    ```
-3. Install dependencies:
+4. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-4. Create a `.env` file with the following variables:
+5. Create a `.env` file with the following variables:
    ```
    REDIS_URL=redis://localhost:6379/0
    GEMINI_API_KEY=your_key_here
