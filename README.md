@@ -1,82 +1,97 @@
 # Interview Agent
 
-An AI-powered interview agent that assists with shortlisting and interviewing process.
+An AI-powered interview agent that helps with interview preparation and practice.
 
 ## Prerequisites
 
 - Python 3.8+
 - Redis
-- Conda (recommended) or Virtual environment
+- Virtual environment (recommended)
+
+## Installing Conda (Optional)
+
+If you don't have Conda installed, you can install it using these steps:
+
+1. Download the Miniconda installer:
+   ```bash
+   wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+   ```
+
+2. Make the installer executable:
+   ```bash
+   chmod +x Miniconda3-latest-Linux-x86_64.sh
+   ```
+
+3. Run the installer:
+   ```bash
+   ./Miniconda3-latest-Linux-x86_64.sh
+   ```
+
+4. Follow the prompts:
+   - Press Enter to review the license agreement
+   - Type "yes" to accept the license terms
+   - Press Enter to confirm the installation location (or specify a different path)
+   - Type "yes" when asked if you want the installer to initialize Miniconda3
+
+5. Close and reopen your terminal, or run:
+   ```bash
+   source ~/.bashrc
+   ```
+
+6. Verify the installation:
+   ```bash
+   conda --version
+   ```
+
+### Option 1: Using environment.yml (Recommended)
+
+Create and set up the environment using the provided environment.yml file:
+
+```bash
+# Create and activate the environment
+conda env create -f environment.yml
+conda activate interview_agent
+```
+
+### Option 2: Manual Installation
+
+If you prefer to install packages manually:
+
+```bash
+# Create a new conda environment for the project
+conda create -n interview_agent python=3.8
+conda activate interview_agent
+
+# Install required packages
+conda install -c conda-forge fastapi uvicorn celery redis python-dotenv requests pydantic pydantic-settings google-generativeai
+```
 
 ## Setup
 
-### Option 1: Using Conda (Recommended)
-
 1. Clone the repository
-   ```bash
-   git clone https://github.com/Kaztic/interview_agent.git
-   ```
-
-2. Create and activate the Conda environment from the environment.yml file:
-   ```bash
-   conda env create -f environment.yml
-   conda activate interview_agent
-   ```
-
-### Option 2: Using venv
-
-1. Clone the repository
-   ```bash
-   git clone https://github.com/Kaztic/interview_agent.git
-   ```
-
 2. Create and activate a virtual environment:
    ```bash
-   python -m venv interview_agent_env
-   source interview_agent_env/bin/activate  # On Windows: interview_agent_env\Scripts\activate
+   python -m venv myenv
+   source myenv/bin/activate  # On Windows: myenv\Scripts\activate
    ```
-   **note: you might have to work with python or python3 based on your machine env setup.
-   
 3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-
-### Environment Setup
-
-Create a `.env` file with the following variables:
-```
-REDIS_URL=redis://localhost:6379/0
-GEMINI_API_KEY=your_key_here
-CELERY_BROKER_URL=redis://localhost:6379/0
-CELERY_RESULT_BACKEND=redis://localhost:6379/0
-```
+4. Create a `.env` file with the following variables:
+   ```
+   REDIS_URL=redis://localhost:6379/0
+   GEMINI_API_KEY=your_key_here
+   CELERY_BROKER_URL=redis://localhost:6379/0
+   CELERY_RESULT_BACKEND=redis://localhost:6379/0
+   ```
 
 ## Running the Application
 
-### Option 1: Using Conda (Recommended)
+### Option 1: Using start.sh (Recommended for Development)
 
-#### Start Script (starts Redis and Celery worker)
-```bash
-# Make the script executable
-chmod +x start_conda.sh
+This script starts both Redis and Celery worker in the background:
 
-# Run the start script
-./start_conda.sh
-```
-
-#### Run Script (starts FastAPI server)
-```bash
-# Make the script executable
-chmod +x run_conda.sh
-
-# Run the API server
-./run_conda.sh
-```
-
-### Option 2: Using venv
-
-#### Start Script (starts Redis and Celery worker)
 ```bash
 # Make the script executable
 chmod +x start.sh
@@ -85,7 +100,15 @@ chmod +x start.sh
 ./start.sh
 ```
 
-#### Run Script (starts FastAPI server)
+This will:
+1. Activate the virtual environment
+2. Start Redis server with secure configuration
+3. Start the Celery worker
+
+### Option 2: Using run.sh (For API Server)
+
+This script starts the FastAPI server:
+
 ```bash
 # Make the script executable
 chmod +x run.sh
@@ -94,11 +117,9 @@ chmod +x run.sh
 ./run.sh
 ```
 
-Both options will:
-1. Activate the appropriate environment
-2. Start Redis server with secure configuration
-3. Start the Celery worker (for start scripts)
-4. Start the FastAPI server on http://localhost:8000 (for run scripts)
+This will:
+1. Activate the virtual environment
+2. Start the FastAPI server on http://localhost:8000
 
 ## API Usage
 
@@ -110,7 +131,7 @@ Send a POST request to create a new interview task:
 curl -X POST http://localhost:8000/api/v1/interview \
   -H "Content-Type: application/json" \
   -d '{
-    "prompt": "You are an C/C++ and OOPs interviewer, give the interviewee 5 unique questions"
+    "prompt": "You are a C/C++ and OOPs interviewer. Ask 5 unique questions to the interviewee."
   }'
 ```
 
@@ -166,4 +187,4 @@ The application uses:
 
 - Redis is configured to run in protected mode
 - All services are bound to localhost by default
-- Environment variables are used for sensitive configuration 
+- Environment variables are used for sensitive configuration
