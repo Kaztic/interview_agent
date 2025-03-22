@@ -2,6 +2,29 @@
 
 An AI-powered interview agent that helps with interview preparation and practice.
 
+## Project Structure
+
+```
+interview_agent/
+├── api/                    # API endpoints and routing
+│   ├── endpoints.py       # API route definitions
+│   └── __init__.py
+├── core/                  # Core application logic
+│   ├── agents/           # Different agent implementations
+│   │   ├── interview_agent.py
+│   │   └── __init__.py
+│   ├── prompts/          # System prompts for different agents
+│   │   └── interview_prompt.py
+│   ├── main.py          # Main application logic
+│   ├── config.py        # Configuration settings
+│   └── schemas.py       # Data models and schemas
+├── tasks/                # Celery task definitions
+├── .env                 # Environment variables
+├── requirements.txt     # Python dependencies
+├── environment.yml      # Conda environment file
+└── README.md
+```
+
 ## Prerequisites
 
 - Python 3.8+
@@ -131,7 +154,7 @@ Send a POST request to create a new interview task:
 curl -X POST http://localhost:8000/api/v1/interview \
   -H "Content-Type: application/json" \
   -d '{
-    "prompt": "You are a C/C++ and OOPs interviewer. Ask 5 unique questions to the interviewee."
+    "prompt": "Full stack developer with 5 years of experience in Python and JavaScript"
   }'
 ```
 
@@ -156,7 +179,7 @@ Response:
 {
     "task_id": "123e4567-e89b-12d3-a456-426614174000",
     "status": "SUCCESS",
-    "result": "Based on my experience..."
+    "result": "Interview questions and evaluation..."
 }
 ```
 
@@ -175,6 +198,25 @@ Possible status values:
 - `GET /api/v1/tasks/{task_id}`: Get the result of a specific task
   - Returns: task_id, current status, and result (if completed)
 
+## Components
+
+### Agents
+
+The `core/agents` directory contains different agent implementations:
+- `interview_agent.py`: Implements the InterviewAgent class that handles interview interactions using the Gemini AI model
+
+### Prompts
+
+The `core/prompts` directory contains system prompts:
+- `interview_prompt.py`: Defines the interview system prompt and formatting functions
+
+### Main Application
+
+The `core/main.py` file contains:
+- FastAPI application setup
+- Endpoint definitions
+- Agent initialization and management
+
 ## Development
 
 The application uses:
@@ -182,6 +224,7 @@ The application uses:
 - Celery for task queue
 - Redis as message broker and result backend
 - Google's Gemini AI for AI capabilities
+- System prompts stored locally for better management and versioning
 
 ## Security
 
