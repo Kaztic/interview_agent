@@ -1,6 +1,6 @@
 # Interview Agent
 
-An AI-powered interview agent that helps with interview preparation and practice.
+An AI-powered interview agent that assists with shortlisting candidates and interviewing them.
 
 ## Project Structure
 
@@ -29,11 +29,9 @@ interview_agent/
 
 - Python 3.8+
 - Redis
-- Virtual environment (recommended)
+- Conda (Recommended)
 
-## Installing Conda (Optional)
-
-If you don't have Conda installed, you can install it using these steps:
+### Installing Conda
 
 1. Download the Miniconda installer:
    ```bash
@@ -66,52 +64,84 @@ If you don't have Conda installed, you can install it using these steps:
    conda --version
    ```
 
-### Option 1: Using environment.yml (Recommended)
-
-Create and set up the environment using the provided environment.yml file:
-
-```bash
-# Create and activate the environment
-conda env create -f environment.yml
-conda activate interview_agent
-```
-
-### Option 2: Manual Installation
-
-If you prefer to install packages manually:
-
-```bash
-# Create a new conda environment for the project
-conda create -n interview_agent python=3.8
-conda activate interview_agent
-
-# Install required packages
-conda install -c conda-forge fastapi uvicorn celery redis python-dotenv requests pydantic pydantic-settings google-generativeai
-```
-
 ## Setup
 
 1. Clone the repository
-2. Create and activate a virtual environment:
+
+2. Set Up the Environment:
+
+   ### Option 1: Using environment.yml (Recommended)
+   ```bash
+   # Create and activate the environment
+   conda env create -f environment.yml
+   conda activate interview_agent
+   ```
+
+   ### Option 2: Manual Conda Installation (If option 1 is not working)
+   ```bash
+   # Create a new conda environment for the project
+   conda create -n interview_agent python=3.8
+   conda activate interview_agent
+
+   # Install required packages
+   conda install -c conda-forge fastapi uvicorn celery redis python-dotenv requests pydantic pydantic-settings google-generativeai
+   ```
+
+   ### Option 3: Using Virtual Environment (Optional)
    ```bash
    python -m venv myenv
    source myenv/bin/activate  # On Windows: myenv\Scripts\activate
-   ```
-3. Install dependencies:
-   ```bash
    pip install -r requirements.txt
    ```
-4. Create a `.env` file with the following variables:
-   ```
+
+3. Create a `.env` file with the following variables:
+   ```bash
    REDIS_URL=redis://localhost:6379/0
    GEMINI_API_KEY=your_key_here
+   # Get your API key from https://makersuite.google.com/app/apikey
    CELERY_BROKER_URL=redis://localhost:6379/0
    CELERY_RESULT_BACKEND=redis://localhost:6379/0
    ```
 
-## Running the Application
+## Running the Application 
 
-### Option 1: Using start.sh (Recommended for Development)
+### With Conda (Recommended)
+### Step 1: Start Celery worker and Redis
+
+This script starts both Redis and Celery worker in the background:
+
+```bash
+# Make the script executable
+chmod +x start_conda.sh
+
+# Run the start script
+./start_conda.sh
+```
+
+This will:
+1. Activate the Conda environment
+2. Start Redis server with secure configuration
+3. Start the Celery worker
+
+### Step 2: Start the API Server
+
+This script starts the FastAPI server:
+
+```bash
+# Make the script executable
+chmod +x run_conda.sh
+
+# Run the API server
+./run_conda.sh
+```
+
+This will:
+1. Activate the Conda environment
+2. Start the FastAPI server on http://localhost:8000
+
+
+### With Venv
+### Step 1: Start Celery worker and Redis
 
 This script starts both Redis and Celery worker in the background:
 
@@ -128,7 +158,7 @@ This will:
 2. Start Redis server with secure configuration
 3. Start the Celery worker
 
-### Option 2: Using run.sh (For API Server)
+### Step 2: Start the API Server
 
 This script starts the FastAPI server:
 
