@@ -16,9 +16,11 @@ An AI-powered interview agent that assists with shortlisting and interviewing pr
    ```
 3. Create and activate a virtual environment:
    ```bash
-   python -m venv myenv
-   source myenv/bin/activate  # On Windows: myenv\Scripts\activate
+   python -m venv interview_agent_env
+   source interview_agent_env/bin/activate  # On Windows: interview_agent_env\Scripts\activate
    ```
+   **note: you might have to work with python or python3 based on your machine env setup.
+   
 4. Install dependencies:
    ```bash
    pip install -r requirements.txt

@@ -5,3 +5,5 @@ __pycache__/
 *.pyd
 .venv
 venv/
+interview_agent_env
+myenv*
