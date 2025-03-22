@@ -7,8 +7,8 @@ settings = get_settings()
 class InterviewAgent:
     def __init__(self):
         genai.configure(api_key=settings.GEMINI_API_KEY)
-        self.model = genai.GenerativeModel('gemini-2.0-flash')
-    
+        self.model = genai.GenerativeModel(model_name='gemini-2.0-flash') #change the model according to use
+
     async def generate_response(self, prompt: str):
         max_retries = 3
         retry_delay = 1

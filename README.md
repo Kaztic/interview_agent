@@ -6,39 +6,77 @@ An AI-powered interview agent that assists with shortlisting and interviewing pr
 
 - Python 3.8+
 - Redis
-- Virtual environment (recommended)
+- Conda (recommended) or Virtual environment
 
 ## Setup
+
+### Option 1: Using Conda (Recommended)
 
 1. Clone the repository
    ```bash
    git clone https://github.com/Kaztic/interview_agent.git
    ```
-3. Create and activate a virtual environment:
+
+2. Create and activate the Conda environment from the environment.yml file:
+   ```bash
+   conda env create -f environment.yml
+   conda activate interview_agent
+   ```
+
+### Option 2: Using venv
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/Kaztic/interview_agent.git
+   ```
+
+2. Create and activate a virtual environment:
    ```bash
    python -m venv interview_agent_env
    source interview_agent_env/bin/activate  # On Windows: interview_agent_env\Scripts\activate
    ```
    **note: you might have to work with python or python3 based on your machine env setup.
    
-4. Install dependencies:
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-5. Create a `.env` file with the following variables:
-   ```
-   REDIS_URL=redis://localhost:6379/0
-   GEMINI_API_KEY=your_key_here
-   CELERY_BROKER_URL=redis://localhost:6379/0
-   CELERY_RESULT_BACKEND=redis://localhost:6379/0
-   ```
+
+### Environment Setup
+
+Create a `.env` file with the following variables:
+```
+REDIS_URL=redis://localhost:6379/0
+GEMINI_API_KEY=your_key_here
+CELERY_BROKER_URL=redis://localhost:6379/0
+CELERY_RESULT_BACKEND=redis://localhost:6379/0
+```
 
 ## Running the Application
 
-### Option 1: Using start.sh (Recommended for Development)
+### Option 1: Using Conda (Recommended)
 
-This script starts both Redis and Celery worker in the background:
+#### Start Script (starts Redis and Celery worker)
+```bash
+# Make the script executable
+chmod +x start_conda.sh
 
+# Run the start script
+./start_conda.sh
+```
+
+#### Run Script (starts FastAPI server)
+```bash
+# Make the script executable
+chmod +x run_conda.sh
+
+# Run the API server
+./run_conda.sh
+```
+
+### Option 2: Using venv
+
+#### Start Script (starts Redis and Celery worker)
 ```bash
 # Make the script executable
 chmod +x start.sh
@@ -47,15 +85,7 @@ chmod +x start.sh
 ./start.sh
 ```
 
-This will:
-1. Activate the virtual environment
-2. Start Redis server with secure configuration
-3. Start the Celery worker
-
-### Option 2: Using run.sh (For API Server)
-
-This script starts the FastAPI server:
-
+#### Run Script (starts FastAPI server)
 ```bash
 # Make the script executable
 chmod +x run.sh
@@ -64,9 +94,11 @@ chmod +x run.sh
 ./run.sh
 ```
 
-This will:
-1. Activate the virtual environment
-2. Start the FastAPI server on http://localhost:8000
+Both options will:
+1. Activate the appropriate environment
+2. Start Redis server with secure configuration
+3. Start the Celery worker (for start scripts)
+4. Start the FastAPI server on http://localhost:8000 (for run scripts)
 
 ## API Usage
 
@@ -78,7 +110,7 @@ Send a POST request to create a new interview task:
 curl -X POST http://localhost:8000/api/v1/interview \
   -H "Content-Type: application/json" \
   -d '{
-    "prompt": "What are your strengths and weaknesses?"
+    "prompt": "You are an C/C++ and OOPs interviewer, give the interviewee 5 unique questions"
   }'
 ```
 
